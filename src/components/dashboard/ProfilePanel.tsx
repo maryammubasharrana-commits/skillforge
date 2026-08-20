@@ -72,9 +72,17 @@ export function ProfilePanel({ userId }: { userId: string }) {
       toast.error(error.message);
       return;
     }
-    const { data: pub } = supabase.storage.from("cvs").getPublicUrl(path);
-    setForm((f) => ({ ...f, cv_url: pub.publicUrl }));
+    setForm((f) => ({ ...f, cv_url: path }));
     toast.success("CV uploaded — remember to save");
+  }
+
+  async function openCv() {
+    const { data, error } = await supabase.storage.from("cvs").createSignedUrl(form.cv_url, 60);
+    if (error || !data) {
+      toast.error("Could not open the CV");
+      return;
+    }
+    window.open(data.signedUrl, "_blank", "noreferrer");
   }
 
   return (
