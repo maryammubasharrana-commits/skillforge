@@ -68,7 +68,10 @@ export function ProfilePanel({ userId }: { userId: string }) {
   async function uploadCv(file: File) {
     const path = `${userId}/${Date.now()}-${file.name}`;
     const { error } = await supabase.storage.from("cvs").upload(path, file, { upsert: true });
-    if (error) return toast.error(error.message);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
     const { data: pub } = supabase.storage.from("cvs").getPublicUrl(path);
     setForm((f) => ({ ...f, cv_url: pub.publicUrl }));
     toast.success("CV uploaded — remember to save");
