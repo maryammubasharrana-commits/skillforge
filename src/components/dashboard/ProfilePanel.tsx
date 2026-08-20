@@ -155,9 +155,9 @@ export function ProfilePanel({ userId }: { userId: string }) {
             }}
           />
           {form.cv_url && (
-            <a className="text-sm text-accent underline" href={form.cv_url} target="_blank" rel="noreferrer">
+            <button type="button" className="text-left text-sm text-accent underline" onClick={() => void openCv()}>
               View uploaded CV
-            </a>
+            </button>
           )}
         </div>
         <div className="md:col-span-2">
