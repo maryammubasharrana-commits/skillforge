@@ -6,6 +6,21 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import heroImage from "@/assets/forge-hero.jpg";
 
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "SkillForge — AI Skill Gap Analysis & Career Roadmaps" },
+      {
+        name: "description",
+        content:
+          "Assess your tech skills, see the gap to your target role, and get an AI-generated roadmap of topics, projects and resources.",
+      },
+      { property: "og:title", content: "SkillForge — AI Skill Gap Analysis & Career Roadmaps" },
+      {
+        property: "og:description",
+        content: "Know exactly what to learn next with AI-powered skill assessments and career roadmaps.",
+      },
+    ],
+  }),
   component: Landing,
 });
 
