@@ -1,0 +1,31 @@
+# Local microservice topology for SkillForge.
+#   web            - TanStack Start app (UI + BFF server functions)
+#   skill-service  - FastAPI service: scoring + skill-gap analysis
+#   roadmap-service- FastAPI service: roadmap composition via Lovable AI
+services:
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      SKILL_SERVICE_URL: http://skill-service:8001
+      ROADMAP_SERVICE_URL: http://roadmap-service:8002
+      LOVABLE_API_KEY: ${LOVABLE_API_KEY}
+      VITE_SUPABASE_URL: ${VITE_SUPABASE_URL}
+      VITE_SUPABASE_PUBLISHABLE_KEY: ${VITE_SUPABASE_PUBLISHABLE_KEY}
+    depends_on:
+      - skill-service
+      - roadmap-service
+
+  skill-service:
+    build: ./services/skill-service
+    ports:
+      - "8001:8001"
+
+  roadmap-service:
+    build: ./services/roadmap-service
+    ports:
+      - "8002:8002"
+    environment:
+      LOVABLE_API_KEY: ${LOVABLE_API_KEY}
+      SKILL_SERVICE_URL: http://skill-service:8001
