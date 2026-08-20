@@ -515,7 +515,7 @@ const AGENT_TOOLS: ResponseItem[] = [
   },
 ];
 
-export type AgentTrace = { tool: string; input: unknown; summary: string };
+export type AgentTrace = { tool: string; input: string; summary: string };
 
 async function runAgentTool(
   supabase: AnySupabase,
@@ -615,7 +615,7 @@ export async function runCareerAgent(
         args = {};
       }
       const { output, summary } = await runAgentTool(supabase, userId, call.name, args);
-      trace.push({ tool: call.name, input: args, summary });
+      trace.push({ tool: call.name, input: JSON.stringify(args), summary });
       input.push({
         type: "function_call_output",
         call_id: call.callId,
